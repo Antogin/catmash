@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "../env/firebase.config.json";
 
 export const matchStore = {
   state: {
@@ -15,15 +16,13 @@ export const matchStore = {
   },
   actions: {
     getMatch: async ({ commit }) => {
-      const url =
-        "https://us-central1-catmash-9d03c.cloudfunctions.net/startMatch";
+      const url = config.functionURL + "startMatch";
       const { data } = await axios.get(url);
       commit("setCurrentmatch", data);
       return data;
     },
     vote: async ({ state }, payload) => {
-      const url =
-        "https://us-central1-catmash-9d03c.cloudfunctions.net/matchResult";
+      const url = config.functionURL + "matchResult";
       const { data } = await axios.post(url, {
         matchId: state.currentMatch.id,
         winner: payload.id

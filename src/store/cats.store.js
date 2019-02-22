@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "../env/firebase.config.json";
 
 export const catsStore = {
   state: {
@@ -11,14 +12,11 @@ export const catsStore = {
   },
   actions: {
     getCats: async ({ commit }) => {
-      const url =
-        "https://firestore.googleapis.com/v1/projects/catmash-9d03c/databases/(default)/documents/cats?pageSize=1000";
+      const url = config.restURL + "cats?pageSize=1000";
       const {
         data: { documents }
       } = await axios.get(url);
-      console.log(documents);
       commit("setCats", documents);
-
       return documents;
     }
   },
