@@ -1,47 +1,27 @@
 <template>
-  <v-layout class="py-5" v-if="currentMatch.id">
-    <v-flex xs6 sm6 class="px-5">
-      <v-card>
-        <v-card-actions>
-          <v-btn flat color="orange" @click="vote(currentMatch.cat1)"
-            >Vote</v-btn
-          >
-        </v-card-actions>
-        <v-img class="white--text" :src="currentMatch.cat1.url"></v-img>
-        <v-card-actions>
-          <v-btn flat color="orange" @click="vote(currentMatch.cat1)"
-            >Vote</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-    <v-flex xs6 sm6 class="px-5">
-      <v-card>
-        <v-card-actions>
-          <v-btn flat color="orange" @click="vote(currentMatch.cat2)"
-            >Vote</v-btn
-          >
-        </v-card-actions>
-        <v-img class="white--text" :src="currentMatch.cat2.url"></v-img>
-        <v-card-actions>
-          <v-btn flat color="orange" @click="vote(currentMatch.cat2)"
-            >Vote</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-flex>
+  <v-layout justify-center class="py-5" v-if="currentMatch.id">
+    <imageSlider
+      v-on:fullSwipe="vote"
+      :leftImage="currentMatch.cat1.url"
+      :rightImage="currentMatch.cat2.url"
+    />
   </v-layout>
 </template>
 
 <script>
+import imageSlider from "./../components/ImageSlider";
+
 export default {
+  components: { imageSlider },
   mounted() {
     this.$store.dispatch("getMatch");
   },
   methods: {
     vote(cat) {
+      const { currentMatch } = this;
+
       this.$store
-        .dispatch("vote", cat)
+        .dispatch("vote", cat ? currentMatch.cat2 : currentMatch.cat1)
         .then(() => this.$store.dispatch("getMatch"));
     }
   },

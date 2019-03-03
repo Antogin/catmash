@@ -10,21 +10,28 @@ export const matchStore = {
     }
   },
   mutations: {
-    setCurrentmatch: (state, payload) => {
+    setCurrentMatch: (state, payload) => {
       state.currentMatch = payload;
     }
   },
   actions: {
     getMatch: async ({ commit }) => {
       const url = config.functionURL + "startMatch";
+      commit("setCurrentMatch", {
+        cat1: null,
+        cat2: null,
+        id: null
+      });
+
       const { data } = await axios.get(url);
-      commit("setCurrentmatch", data);
+      commit("setCurrentMatch", data);
       return data;
     },
-    vote: async ({ state }, payload) => {
+    vote: async ({ state: { currentMatch } }, payload) => {
       const url = config.functionURL + "matchResult";
+
       const { data } = await axios.post(url, {
-        matchId: state.currentMatch.id,
+        matchId: currentMatch.id,
         winner: payload.id
       });
       return data;
