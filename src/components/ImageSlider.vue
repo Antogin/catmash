@@ -1,6 +1,5 @@
 <!-- Inspired by https://github.com/junkboy0315/vue-compare-image -->
 
-
 <template>
   <div class="slider-container" ref="containerRef">
     <img
