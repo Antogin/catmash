@@ -10,4 +10,5 @@ export type Match = {
   cat1: Cat;
   cat2: Cat;
   id: string;
+  played: boolean;
 };
